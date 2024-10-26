@@ -4,9 +4,9 @@ import { NextResponse } from 'next/server'
 export const runtime = 'edge'
 
 export async function POST(req: Request) {
-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+  if (!process.env.FILE_READ_WRITE_TOKEN) {
     return new Response(
-      "Missing BLOB_READ_WRITE_TOKEN. Don't forget to add that to your .env file.",
+      "Missing FILE_READ_WRITE_TOKEN. Don't forget to add that to your .env file.",
       {
         status: 401
       }
