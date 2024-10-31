@@ -4,9 +4,9 @@ import { NextResponse } from 'next/server'
 export const runtime = 'edge'
 
 export async function POST(req: Request) {
-  if (!process.env.FILE_READ_WRITE_TOKEN) {
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
     return new Response(
-      "Missing FILE_READ_WRITE_TOKEN. Don't forget to add that to your .env file.",
+      "Missing BLOB_READ_WRITE_TOKEN. Don't forget to add that to your .env file.",
       {
         status: 401
       }
@@ -22,7 +22,7 @@ export async function POST(req: Request) {
   const finalName = filename.includes(fileType)
     ? filename
     : `${filename}${fileType}`
-  const blob = await put(finalName, file, {
+  const blob = await put(`ailton-vercel-blog/${filename}`, file, {
     contentType,
     access: 'public'
   })
