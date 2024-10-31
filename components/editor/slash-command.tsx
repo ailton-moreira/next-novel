@@ -5,6 +5,7 @@ import {
   Heading2,
   Heading3,
   ImageIcon,
+  FileIcon,
   List,
   ListOrdered,
   Text,
@@ -15,7 +16,8 @@ import {
 import { createSuggestionItems } from 'novel/extensions'
 import { Command, renderItems } from 'novel/extensions'
 import { uploadFn } from './image-upload'
-
+import { uploadFileFn } from './file-upload'
+import {acceptedTypes, acceptedImageTypes} from '@/lib/config/constant/acceptedTypes'
 export const suggestionItems = createSuggestionItems([
   {
     title: 'Text',
@@ -132,12 +134,33 @@ export const suggestionItems = createSuggestionItems([
       // upload image
       const input = document.createElement('input')
       input.type = 'file'
-      input.accept = 'image/*'
+      input.accept = acceptedImageTypes
       input.onchange = async () => {
         if (input.files?.length) {
           const file = input.files[0]
           const pos = editor.view.state.selection.from
           uploadFn(file, editor.view, pos)
+        }
+      }
+      input.click()
+    }
+  },
+  {
+    title: 'File',
+    description: `Upload files ${acceptedTypes} from your computer.`,
+    searchTerms: ['photo', 'picture', 'media'],
+    icon: <FileIcon size={18} />,
+    command: ({ editor, range }) => {
+      editor.chain().focus().deleteRange(range).run()
+      // upload file
+      const input = document.createElement('input')
+      input.type = 'file'
+      input.accept = acceptedTypes
+      input.onchange = async () => {
+        if (input.files?.length) {
+          const file = input.files[0]
+          const pos = editor.view.state.selection.from
+          uploadFileFn(file, editor.view, pos)
         }
       }
       input.click()
